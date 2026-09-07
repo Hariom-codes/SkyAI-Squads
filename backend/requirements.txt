@@ -13,7 +13,6 @@ langchain-groq
 langchain-text-splitters
 chromadb
 
-sentence-transformers
 groq
 
 google-genai==2.20.0

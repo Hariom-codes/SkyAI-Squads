@@ -1,48 +1,79 @@
+import os
 from pathlib import Path
 
-from sentence_transformers import SentenceTransformer
+from google import genai
+from google.genai import types
+
 from langchain_chroma import Chroma
 from langchain_core.embeddings import Embeddings
 
 
 # ---------------------------------------------------------
-# Embedding model
+# Configuration
 # ---------------------------------------------------------
 
-model = SentenceTransformer("all-MiniLM-L6-v2")
+VECTOR_DB_PATH = Path("chroma_db")
+COLLECTION_NAME = "tata_legal_knowledge"
+
+GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
+
+if not GOOGLE_API_KEY:
+    raise RuntimeError("GOOGLE_API_KEY is not configured")
+
+client = genai.Client(api_key=GOOGLE_API_KEY)
 
 
-class SentenceTransformerEmbeddings(Embeddings):
+# ---------------------------------------------------------
+# Gemini Embeddings
+# ---------------------------------------------------------
+
+class GeminiEmbeddings(Embeddings):
+
+    MODEL_NAME = "gemini-embedding-001"
+    DIMENSION = 768
 
     def embed_documents(self, texts):
-        return model.encode(texts).tolist()
+        if not texts:
+            return []
+
+        response = client.models.embed_content(
+            model=self.MODEL_NAME,
+            contents=texts,
+            config=types.EmbedContentConfig(
+                task_type="RETRIEVAL_DOCUMENT",
+                output_dimensionality=self.DIMENSION,
+            ),
+        )
+
+        return [embedding.values for embedding in response.embeddings]
 
     def embed_query(self, text):
-        return model.encode(text).tolist()
+        if not text or not text.strip():
+            return []
 
+        response = client.models.embed_content(
+            model=self.MODEL_NAME,
+            contents=text,
+            config=types.EmbedContentConfig(
+                task_type="RETRIEVAL_QUERY",
+                output_dimensionality=self.DIMENSION,
+            ),
+        )
 
-embedding_function = SentenceTransformerEmbeddings()
+        return response.embeddings[0].values
 
 
 # ---------------------------------------------------------
-# ChromaDB configuration
+# Embedding + Vector Store
 # ---------------------------------------------------------
 
-# This is the location where Hariom's/vector team's
-# ChromaDB will be available.
-VECTOR_DB_PATH = Path("chroma_db")
-
+embedding_function = GeminiEmbeddings()
 
 vector_store = Chroma(
-    collection_name="tata_legal_knowledge",
+    collection_name=COLLECTION_NAME,
     embedding_function=embedding_function,
-    persist_directory=str(VECTOR_DB_PATH)
+    persist_directory=str(VECTOR_DB_PATH),
 )
-
-
-# ---------------------------------------------------------
-# Retriever
-# ---------------------------------------------------------
 
 retriever = vector_store.as_retriever(
     search_kwargs={"k": 3}
@@ -50,28 +81,30 @@ retriever = vector_store.as_retriever(
 
 
 # ---------------------------------------------------------
-# Public function used by our backend
+# Retrieval
 # ---------------------------------------------------------
 
 def retrieve_relevant_knowledge(query: str) -> list:
-    """
-    Retrieve the top relevant legal knowledge chunks
-    for a contract clause or legal question.
-    """
 
     if not query or not query.strip():
         return []
 
-    documents = retriever.invoke(query)
+    try:
+        documents = retriever.invoke(query)
 
-    results = []
+        results = []
 
-    for document in documents:
+        for document in documents:
+            results.append(
+                {
+                    "content": document.page_content,
+                    "source": document.metadata.get("source"),
+                    "page": document.metadata.get("page"),
+                }
+            )
 
-        results.append({
-            "content": document.page_content,
-            "source": document.metadata.get("source"),
-            "page": document.metadata.get("page")
-        })
+        return results
 
-    return results
+    except Exception as exc:
+        print(f"RAG retrieval error: {exc}")
+        return []
