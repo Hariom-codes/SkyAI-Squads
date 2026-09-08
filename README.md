@@ -6,117 +6,138 @@ Tata Legal AI — Legal Document Intelligence System is an AI-powered solution d
 
 The system is designed to process legal PDF documents and automatically extract useful information such as clauses, summaries, potential risks, supporting legal knowledge, and recommendations.
 
-The project combines **PDF processing, OCR, text parsing, clause extraction, Retrieval-Augmented Generation (RAG), LangChain, Gemini Embeddings, ChromaDB, Google Gemini LLM, SQLite database, FastAPI, React, Docker, and cloud deployment** into a single end-to-end legal document intelligence platform.
+The project combines PDF processing, OCR, text parsing, clause extraction, Retrieval-Augmented Generation (RAG), LangChain, Gemini Embeddings, ChromaDB, Google Gemini LLM, SQLite database, FastAPI, React, Docker, and cloud deployment into a single end-to-end legal document intelligence platform.
 
-The system follows a complete pipeline starting from document upload and ending with structured AI-generated legal insights and human review.
-
----
+The complete workflow starts from document upload and continues through document processing, clause extraction, knowledge retrieval, AI analysis, risk assessment, human review, and result storage.
 
 ## Objective
 
 The primary objective of the project is to reduce the manual effort involved in reviewing lengthy legal documents.
 
-Instead of manually going through every page and clause, the system helps users:
+Instead of manually reviewing every page and clause, the system helps users:
 
 - Upload legal documents
-- Extract text from PDFs
+- Extract text from PDF documents
 - Process scanned documents using OCR
 - Parse and structure document content
-- Identify important clauses
+- Identify important legal clauses
 - Retrieve relevant legal knowledge
 - Analyze clauses using Generative AI
 - Identify potential risks
 - Generate explanations and recommendations
-- Review AI-generated results through a human approval workflow
+- Review AI-generated results through human approval
 - Store processed document results
-- Retrieve previous analysis using a unique document ID
+- Retrieve previously processed documents using a unique document ID
 
-The system is designed as an AI-assisted solution where human review remains an important part of the workflow.
-
----
+The system is designed as an AI-assisted solution where human review remains an important part of the overall workflow.
 
 ## Legal Knowledge Base
 
 The project uses a dedicated legal knowledge base containing **20 PDF documents**.
 
-These documents provide the reference knowledge used by the RAG system during legal clause analysis.
+These documents provide reference knowledge that is used by the RAG system during legal clause analysis.
 
-The knowledge-base workflow is:
+### Knowledge Base Workflow
 
 ```text
 20 Legal PDF Documents
-        ↓
+        |
+        v
 Document Loading
-        ↓
+        |
+        v
 Text Extraction
-        ↓
+        |
+        v
 Text Chunking
-        ↓
+        |
+        v
 Gemini Embeddings
-        ↓
+        |
+        v
 ChromaDB
-        ↓
+        |
+        v
 Semantic Search
-        ↓
+        |
+        v
 Relevant Legal Knowledge
-        ↓
+        |
+        v
 Gemini LLM
 
-The knowledge base allows the system to retrieve relevant information instead of relying only on the general knowledge of the language model.
+The knowledge base allows the system to retrieve relevant information from the project's legal documents instead of relying only on the general knowledge of the language model.
 
 Overall System
 
-The complete system consists of several interconnected layers.
+The complete system consists of multiple interconnected layers.
 
 Frontend
-   ↓
+    |
+    v
 FastAPI Backend
-   ↓
+    |
+    v
 PDF Processing
-   ↓
+    |
+    v
 OCR / Text Extraction
-   ↓
+    |
+    v
 Parsing
-   ↓
+    |
+    v
 Clause Extraction
-   ↓
+    |
+    v
 RAG Retrieval
-   ↓
+    |
+    v
 ChromaDB
-   ↓
+    |
+    v
 Gemini Embeddings
-   ↓
+    |
+    v
 Gemini LLM
-   ↓
+    |
+    v
 Risk Analysis
-   ↓
+    |
+    v
 Human Approval
-   ↓
+    |
+    v
 SQLite Database
-   ↓
+    |
+    v
 Result Retrieval
-   ↓
+    |
+    v
 Frontend
 
 Each component performs a specific role in the overall document intelligence workflow.
 
 Complete Document Processing Workflow
-Step 1 — PDF Upload
+Step 1: PDF Upload
 
-The user uploads a legal PDF document through the frontend.
+The user uploads a legal PDF document through the React frontend.
 
 The frontend sends the document to the FastAPI backend through the document upload API.
 
 User
- ↓
+ |
+ v
 React Frontend
- ↓
+ |
+ v
 POST /upload
- ↓
+ |
+ v
 FastAPI Backend
-Step 2 — File Validation
+Step 2: File Validation
 
-The backend first validates the uploaded file.
+The backend validates the uploaded document before starting the main processing pipeline.
 
 The system checks whether:
 
@@ -125,25 +146,32 @@ The file is a supported PDF
 The document is not empty
 The document can be processed
 
-Invalid files are rejected before entering the main processing pipeline.
+Invalid files are rejected before entering the main processing workflow.
 
-Step 3 — PDF Processing
+Step 3: PDF Processing
 
 The uploaded PDF is processed page by page.
 
-For documents containing selectable text, the text can be extracted directly.
+For documents containing selectable text, the system can extract the text directly.
 
-For scanned or image-based documents, OCR processing is used.
+For scanned or image-based documents, OCR processing is used to extract readable text.
 
 PDF
- ↓
+ |
+ v
 PDF Pages
- ↓
+ |
+ v
 Text Extraction / Image Conversion
+ |
+ v
 OCR Processing
-OCR Technology
+ |
+ v
+Extracted Text
+Step 4: OCR Processing
 
-The project uses Tesseract OCR for extracting text from scanned or image-based legal documents.
+The project uses Tesseract OCR to extract text from scanned or image-based legal documents.
 
 The OCR pipeline uses:
 
@@ -152,56 +180,63 @@ pytesseract
 pdf2image
 Pillow
 Poppler
-
-The workflow is:
-
+OCR Workflow
 Scanned PDF
-    ↓
+     |
+     v
 PDF Pages
-    ↓
+     |
+     v
 Image Conversion
-    ↓
+     |
+     v
 Tesseract OCR
-    ↓
+     |
+     v
 Extracted Text
 
-OCR allows the system to process documents where normal text extraction is not sufficient.
+OCR allows the system to process documents where normal PDF text extraction is not sufficient.
 
-Text Parsing
+Step 5: Text Parsing
 
 After text extraction, the document content is passed to the parsing layer.
 
 The parser processes the extracted text and structures the document content so that relevant clauses can be identified and analyzed.
 
 Extracted Text
-      ↓
+      |
+      v
 Text Cleaning
-      ↓
+      |
+      v
 Text Parsing
-      ↓
+      |
+      v
 Structured Content
 
 Parsing is an important stage because the AI analysis works at the clause level rather than treating the complete document as one large block of text.
 
-Clause Extraction
+Step 6: Clause Extraction
 
 After parsing, relevant legal clauses are identified from the document.
 
 Each clause becomes an individual unit that can be processed through the AI pipeline.
 
-The clause-processing flow is:
-
 Document
-   ↓
+   |
+   v
 Parsed Text
-   ↓
+   |
+   v
 Clause Extraction
-   ↓
+   |
+   v
 Individual Clauses
-   ↓
+   |
+   v
 Clause Analysis
 
-The system can then analyze each clause separately and provide information such as:
+The system can generate information such as:
 
 Clause name
 Clause summary
@@ -211,43 +246,53 @@ Recommendation
 Retrieval-Augmented Generation
 RAG Overview
 
-Retrieval-Augmented Generation is one of the core components of the project.
+Retrieval-Augmented Generation (RAG) is one of the core components of the project.
 
 The purpose of RAG is to provide the Gemini LLM with relevant information retrieved from the project's legal knowledge base.
 
-Instead of sending only the clause to the LLM, the system first searches the knowledge base and retrieves relevant legal information.
+Instead of sending only the legal clause to the language model, the system first searches the knowledge base and retrieves relevant legal information.
 
 Legal Clause
-     ↓
+     |
+     v
 Query Embedding
-     ↓
+     |
+     v
 ChromaDB Search
-     ↓
+     |
+     v
 Relevant Knowledge
-     ↓
+     |
+     v
 Clause + Retrieved Context
-     ↓
+     |
+     v
 Gemini LLM
-     ↓
+     |
+     v
 AI Analysis
 Knowledge Base Preparation
 
-The 20 legal PDF documents are processed before being used for retrieval.
-
-The preparation pipeline is:
+The 20 legal PDF documents are processed before they are used for retrieval.
 
 20 Legal PDFs
-      ↓
+      |
+      v
 Document Loading
-      ↓
+      |
+      v
 Text Extraction
-      ↓
+      |
+      v
 Document Chunking
-      ↓
+      |
+      v
 Gemini Embeddings
-      ↓
+      |
+      v
 Vector Storage
-      ↓
+      |
+      v
 ChromaDB
 
 The documents are divided into smaller chunks so that relevant sections can be retrieved efficiently.
@@ -271,7 +316,9 @@ Gemini Embeddings convert text into numerical vector representations.
 These vectors allow the system to compare the semantic similarity between:
 
 User Document Clause
-        and
+        |
+        | Semantic Similarity
+        v
 Knowledge Base Chunks
 
 The most relevant chunks are then retrieved from ChromaDB.
@@ -285,13 +332,17 @@ ChromaDB stores the embeddings and corresponding legal document chunks.
 The retrieval process works as follows:
 
 Legal Knowledge
-      ↓
+      |
+      v
 Gemini Embeddings
-      ↓
+      |
+      v
 ChromaDB
-      ↓
+      |
+      v
 Similarity Search
-      ↓
+      |
+      v
 Top Relevant Chunks
 
 The retrieved chunks are then passed to the AI analysis layer.
@@ -300,34 +351,39 @@ LangChain
 
 LangChain is used to structure and manage the RAG workflow.
 
-It connects the different components involved in retrieval and AI processing.
-
-The RAG architecture can be represented as:
+It connects the different components involved in document processing, retrieval, and AI processing.
 
 Documents
-   ↓
+    |
+    v
 Chunking
-   ↓
+    |
+    v
 Embeddings
-   ↓
+    |
+    v
 ChromaDB
-   ↓
+    |
+    v
 Retriever
-   ↓
+    |
+    v
 Relevant Context
-   ↓
+    |
+    v
 LLM
 
 LangChain helps organize the retrieval pipeline and provides the connection between the vector database and the AI analysis process.
 
 Generative AI Analysis
+Google Gemini LLM
 
 The project uses Google Gemini as the Large Language Model.
 
 The LLM receives:
 
 Legal Clause
-+
+      +
 Retrieved Legal Knowledge
 
 The model then analyzes the clause and generates structured information.
@@ -342,7 +398,7 @@ Risk Level
 Risk Reason
 Recommendation
 
-This structured output is then returned to the backend and displayed through the frontend.
+The structured output is returned to the backend and displayed through the frontend.
 
 Risk Analysis
 
@@ -354,22 +410,25 @@ Risk level
 Reason for the identified risk
 Supporting information
 Recommendation
-
-The general workflow is:
-
+Risk Analysis Workflow
 Legal Clause
-      ↓
+      |
+      v
 Relevant Knowledge
-      ↓
+      |
+      v
 Gemini Analysis
-      ↓
+      |
+      v
 Risk Identification
-      ↓
+      |
+      v
 Risk Explanation
-      ↓
+      |
+      v
 Recommendation
 
-The AI-generated risk information is intended to assist reviewers in understanding clauses more efficiently.
+The AI-generated risk information is intended to assist reviewers in understanding legal clauses more efficiently.
 
 Human-in-the-Loop Review
 
@@ -377,7 +436,7 @@ The system includes a Human-in-the-Loop approval workflow.
 
 AI-generated results are not treated as an automatic final legal decision.
 
-A human reviewer can review the generated clause analysis.
+A human reviewer can review the generated clause analysis before taking an action.
 
 Review Actions
 
@@ -389,6 +448,9 @@ Reject a result
 Edit a result
 Escalate a result
 Review Statuses
+
+The system supports the following statuses:
+
 Pending
 Approved
 Rejected
@@ -405,6 +467,9 @@ After a document is successfully processed, the system generates a unique docume
 The result is then stored in the database.
 
 Stored Information
+
+The database stores information such as:
+
 Document ID
 Filename
 Analysis Result
@@ -419,13 +484,17 @@ Each processed document receives a unique identifier.
 The workflow is:
 
 PDF Upload
-    ↓
+    |
+    v
 Document Processing
-    ↓
+    |
+    v
 AI Analysis
-    ↓
+    |
+    v
 Unique Document ID
-    ↓
+    |
+    v
 SQLite Database
 
 The stored result can later be retrieved using:
@@ -453,23 +522,32 @@ Human approval
 SQLite persistence
 Backend Flow
 Frontend Request
-      ↓
+      |
+      v
 FastAPI API
-      ↓
+      |
+      v
 Document Processing
-      ↓
+      |
+      v
 OCR
-      ↓
+      |
+      v
 Parsing
-      ↓
+      |
+      v
 Clause Extraction
-      ↓
+      |
+      v
 RAG Retrieval
-      ↓
+      |
+      v
 Gemini AI
-      ↓
+      |
+      v
 Database
-      ↓
+      |
+      v
 API Response
 Backend Services
 Upload Service
@@ -526,19 +604,26 @@ The frontend and backend communicate through HTTP REST APIs.
 The integration works as follows:
 
 React Frontend
-      ↓
+      |
+      v
 API Request
-      ↓
+      |
+      v
 FastAPI Backend
-      ↓
+      |
+      v
 Document Processing
-      ↓
+      |
+      v
 AI Analysis
-      ↓
+      |
+      v
 JSON Response
-      ↓
+      |
+      v
 React Frontend
-      ↓
+      |
+      v
 Results Displayed
 
 The main document-processing request is:
@@ -585,16 +670,18 @@ GET /documents/{document_id}
 
 This endpoint retrieves a previously processed document using its unique document ID.
 
-The workflow is:
-
 Document ID
-     ↓
+     |
+     v
 SQLite Database
-     ↓
+     |
+     v
 Stored Analysis
-     ↓
+     |
+     v
 API Response
-     ↓
+     |
+     v
 Frontend
 
 If the document exists, the stored result is returned to the frontend.
@@ -638,110 +725,110 @@ Frontend Deployment	Netlify
 Backend Deployment	Render
 Project Architecture
 Tata Legal AI
-│
+|
 ├── Frontend
-│   └── React + Vite
-│
+|   └── React + Vite
+|
 ├── Backend
-│   └── FastAPI
-│
+|   └── FastAPI
+|
 ├── Document Processing
-│   ├── PDF Processing
-│   └── OCR
-│
+|   ├── PDF Processing
+|   └── OCR
+|
 ├── Parsing
-│   └── Clause Extraction
-│
+|   └── Clause Extraction
+|
 ├── Knowledge Layer
-│   ├── 20 Legal PDFs
-│   ├── Text Chunking
-│   ├── Gemini Embeddings
-│   └── ChromaDB
-│
+|   ├── 20 Legal PDFs
+|   ├── Text Chunking
+|   ├── Gemini Embeddings
+|   └── ChromaDB
+|
 ├── AI Layer
-│   └── Google Gemini LLM
-│
+|   └── Google Gemini LLM
+|
 ├── Review Layer
-│   └── Human Approval
-│
+|   └── Human Approval
+|
 ├── Persistence Layer
-│   └── SQLite
-│
+|   └── SQLite
+|
 └── Deployment
     ├── Netlify
     ├── Render
     └── Docker
 End-to-End System Flow
-                    User
-                     |
-                     v
-              React Frontend
-                     |
-                     v
-              PDF Upload API
-                     |
-                     v
-              FastAPI Backend
-                     |
-                     v
-              File Validation
-                     |
-                     v
-             PDF Processing
-                     |
-                     v
-              OCR / Extraction
-                     |
-                     v
-                Parsing
-                     |
-                     v
-            Clause Extraction
-                     |
-                     v
-               RAG Query
-                     |
-                     v
-             Gemini Embedding
-                     |
-                     v
-                ChromaDB
-                     |
-                     v
-          Relevant Legal Knowledge
-                     |
-                     v
-              Gemini LLM
-                     |
-                     v
-              Clause Analysis
-                     |
-          +----------+----------+
-          |                     |
-          v                     v
-      Risk Level          Recommendation
-          |                     |
-          +----------+----------+
-                     |
-                     v
-              Human Review
-                     |
-          +----------+----------+
-          |          |          |
-          v          v          v
-       Approve    Reject     Escalate
-                     |
-                     v
-              SQLite Database
-                     |
-                     v
-             Document ID
-                     |
-                     v
-            Result Retrieval
-                     |
-                     v
-              React Frontend
+User
+ |
+ v
+React Frontend
+ |
+ v
+PDF Upload API
+ |
+ v
+FastAPI Backend
+ |
+ v
+File Validation
+ |
+ v
+PDF Processing
+ |
+ v
+OCR / Text Extraction
+ |
+ v
+Parsing
+ |
+ v
+Clause Extraction
+ |
+ v
+RAG Query
+ |
+ v
+Gemini Embedding
+ |
+ v
+ChromaDB
+ |
+ v
+Relevant Legal Knowledge
+ |
+ v
+Gemini LLM
+ |
+ v
+Clause Analysis
+ |
+ +--------------------+
+ |                    |
+ v                    v
+Risk Level       Recommendation
+ |                    |
+ +---------+----------+
+           |
+           v
+      Human Review
+           |
+      +----+----+----+
+      |         |    |
+      v         v    v
+   Approve   Reject Escalate
+      |
+      v
+SQLite Database
+      |
+      v
+Document ID
+      |
+      v
+Result Retrieval
+      |
+      v
+React Frontend
 Deployment
 
 The project uses a cloud-based deployment architecture.
@@ -781,27 +868,38 @@ Poppler
 Python dependencies
 Deployment Architecture
 React + Vite
-     ↓
+      |
+      v
 Netlify
-     ↓
+      |
+      v
 REST API
-     ↓
+      |
+      v
 FastAPI
-     ↓
+      |
+      v
 Render
-     ↓
+      |
+      v
 Docker Container
-     ↓
+      |
+      v
 PDF + OCR Processing
-     ↓
+      |
+      v
 RAG + ChromaDB
-     ↓
+      |
+      v
 Gemini AI
-     ↓
+      |
+      v
 SQLite
-     ↓
+      |
+      v
 API Response
-     ↓
+      |
+      v
 Frontend
 Error Handling
 
@@ -813,7 +911,7 @@ Unsupported or invalid files are rejected before processing.
 
 Empty PDF
 
-Empty documents are rejected instead of being sent through the complete pipeline.
+Empty documents are rejected instead of being sent through the complete processing pipeline.
 
 OCR Failure
 
@@ -849,44 +947,44 @@ Environment files such as .env should not be committed to the GitHub repository.
 
 Project Structure
 Tata-Legal-AI/
-│
+|
 ├── backend/
-│   │
-│   ├── api/
-│   │   ├── upload.py
-│   │   └── human_approval.py
-│   │
-│   ├── services/
-│   │   ├── ocr_service.py
-│   │   ├── parser_service.py
-│   │   ├── rag_service.py
-│   │   ├── ai_service.py
-│   │   ├── approval_service.py
-│   │   └── document_service.py
-│   │
-│   ├── models/
-│   │
-│   ├── rag/
-│   │   ├── embedding.py
-│   │   ├── vector_store.py
-│   │   ├── load_documents.py
-│   │   ├── chunk_documents.py
-│   │   ├── retriever.py
-│   │   ├── rag_pipeline.py
-│   │   └── build_vector_db.py
-│   │
-│   ├── chroma_db/
-│   │
-│   ├── data/
-│   │   └── approvals.db
-│   │
-│   ├── main.py
-│   ├── requirements.txt
-│   ├── Dockerfile
-│   └── README.md
-│
+|   |
+|   ├── api/
+|   |   ├── upload.py
+|   |   └── human_approval.py
+|   |
+|   ├── services/
+|   |   ├── ocr_service.py
+|   |   ├── parser_service.py
+|   |   ├── rag_service.py
+|   |   ├── ai_service.py
+|   |   ├── approval_service.py
+|   |   └── document_service.py
+|   |
+|   ├── models/
+|   |
+|   ├── rag/
+|   |   ├── embedding.py
+|   |   ├── vector_store.py
+|   |   ├── load_documents.py
+|   |   ├── chunk_documents.py
+|   |   ├── retriever.py
+|   |   ├── rag_pipeline.py
+|   |   └── build_vector_db.py
+|   |
+|   ├── chroma_db/
+|   |
+|   ├── data/
+|   |   └── approvals.db
+|   |
+|   ├── main.py
+|   ├── requirements.txt
+|   ├── Dockerfile
+|   └── README.md
+|
 └── frontend/
-    │
+    |
     ├── src/
     ├── public/
     ├── package.json
@@ -900,21 +998,29 @@ Document Processing Testing
 The document workflow was tested from PDF upload through AI analysis.
 
 PDF Upload
-    ↓
+    |
+    v
 Validation
-    ↓
+    |
+    v
 OCR / Text Extraction
-    ↓
+    |
+    v
 Parsing
-    ↓
+    |
+    v
 Clause Extraction
-    ↓
+    |
+    v
 RAG Retrieval
-    ↓
+    |
+    v
 Gemini Analysis
-    ↓
+    |
+    v
 Risk Assessment
-    ↓
+    |
+    v
 Recommendation
 API Testing
 
@@ -1048,5 +1154,4 @@ Frontend Handling
 Additional Project Contributions
 
 
-**Is version mein exact flow ye hai:**  
-**Project Name → Overview → Objective → 20 PDF Knowledge Base → OCR → Parsing → Clause Extraction → RAG → Embeddings → ChromaDB → LangChain → Gemini → Risk Analysis → Human Approval → SQLite → Backend → Frontend → APIs → Architecture → Deployment → Testing → Conclusion → Disclaimer → Team Contributions LAST.**
+**Ye structure ab proper hierarchy mein hai:** `#` → main sections, `##` → subsections, `###` → individual components/team members. Aur **Team Contributions intentionally sabse last** rakha hai, jaise tumne bola tha.
