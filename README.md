@@ -702,9 +702,9 @@ The backend is ready for frontend integration and can be further hardened for pr
 **Tanvi Rathore : Backend Handling , Backend-Frontend Integration , SQlite Database Handling
 **Poojitha Gaddam : OCR Handling
 **mohmd Amaan Zaidi : Parsing
-**Prabhat : Clause Extraction
+**Prabhat Kumar Sasmal : Clause Extraction
 **Jyoti : RAG & Langchain & LLM Handling
 **Vishwajith Sonawane : Human Approval Handling
 **Suryansh : Frontnd & Backend Deployment
-**Anas : Frontend Handling
+**Anas Khan : Frontend Handling
 **Shivaji , Vipul , Hitesh : Additional Contribution
