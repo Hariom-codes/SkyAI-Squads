@@ -1,4 +1,118 @@
-# Tata Legal AI — Backend
+# Tata Legal AI – Legal Document Intelligence System
+
+## Team Name
+
+**SkyAI-Squads**
+
+## Group Representative
+
+**Hariom Upadhyay**
+
+## Project Overview
+
+Tata Legal AI is an AI-powered Legal Document Intelligence System designed to simplify the analysis of complex legal documents.
+
+The system allows users to upload legal PDF documents and uses Artificial Intelligence, OCR, document parsing, clause extraction, Retrieval-Augmented Generation (RAG), vector databases, and Large Language Models (LLMs) to analyze the document and identify important legal information and potential risks.
+
+The solution also includes a human approval workflow, allowing AI-generated results to be reviewed before a final decision is made.
+
+## Objective
+
+The main objective of Tata Legal AI is to build an intelligent and efficient system that can assist users in understanding and analyzing legal documents.
+
+The system aims to:
+
+* Automate legal document processing and analysis.
+* Extract text from both normal and scanned PDF documents.
+* Identify important legal clauses.
+* Retrieve relevant information from a dedicated legal knowledge base.
+* Use RAG and LLMs to generate contextual legal analysis.
+* Identify potential risks and concerns in legal documents.
+* Provide a human-in-the-loop approval mechanism.
+* Reduce the time and effort required for initial legal document review.
+
+## Solution
+
+Tata Legal AI provides an end-to-end AI-powered workflow for legal document intelligence.
+
+The solution processes a legal document through multiple stages:
+
+```text
+Legal PDF
+    ↓
+OCR / Text Extraction
+    ↓
+Document Parsing
+    ↓
+Clause Extraction
+    ↓
+RAG Retrieval
+    ↓
+Legal Knowledge Base
+    ↓
+LLM Analysis
+    ↓
+Risk Identification
+    ↓
+Human Review
+    ↓
+Approval / Rejection
+```
+
+This integrated approach combines automated AI processing with human review to provide a structured and practical legal document analysis solution.
+
+## Our Product
+
+Tata Legal AI is our complete Legal Document Intelligence product that brings document processing, AI analysis, risk identification, and human approval into a single platform.
+
+Users can upload a legal PDF and obtain structured AI-assisted insights from the document.
+
+### Key Product Capabilities
+
+* Legal PDF upload and processing
+* OCR for scanned documents
+* Document parsing
+* Legal clause extraction
+* 30-PDF legal knowledge base
+* Retrieval-Augmented Generation (RAG)
+* Gemini-based embeddings
+* ChromaDB vector search
+* LangChain integration
+* Gemini LLM analysis
+* Legal risk analysis
+* Human approval workflow
+* SQLite-based approval records
+* Web-based frontend
+* FastAPI backend
+* REST API integration
+
+## Live Project
+
+### Frontend
+
+**Live Frontend:**
+[Add Frontend Live Link Here]
+
+### Backend API
+
+**Live Backend:**
+[Add Backend Live Link Here]
+
+### GitHub Repository
+
+**GitHub Repository:**
+https://github.com/Hariom-codes/SkyAI-Squads
+
+### Project Presentation
+
+**Project PPT:**
+[Add PPT Link Here]
+
+---
+
+# Backend
+
+## Backend
 
 Backend service for the **Tata Legal AI Legal Document Intelligence System**.
 
