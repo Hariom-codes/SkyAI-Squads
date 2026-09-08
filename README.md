@@ -1,4 +1,4 @@
-# Tata Legal AI — Legal Document Intelligence System
+#  Tata Group: AI Legal Document Intelligence System
 
 ## Project Overview
 
@@ -33,14 +33,14 @@ The system is designed as an AI-assisted solution where human review remains an 
 
 ## Legal Knowledge Base
 
-The project uses a dedicated legal knowledge base containing **20 PDF documents**.
+The project uses a dedicated legal knowledge base containing **30 PDF documents**.
 
 These documents provide reference knowledge that is used by the RAG system during legal clause analysis.
 
 ### Knowledge Base Workflow
 
 ```text
-20 Legal PDF Documents
+30 Legal PDF Documents
         |
         v
 Document Loading
@@ -67,7 +67,7 @@ Relevant Legal Knowledge
 Gemini LLM
 
 
-### Tata Legal AI — Backend
+#  Tata Group: AI Legal Document Intelligence System - **Backend**
 
 Backend service for the **Tata Legal AI Legal Document Intelligence System**.
 
@@ -764,3 +764,445 @@ The backend is designed to work with the team's current frontend upload and revi
 The core document intelligence, AI analysis, human review, persistence, and retrieval workflow is implemented and testable through the backend API.
 
 The backend is ready for frontend integration and can be further hardened for production deployment as required.
+
+
+# Tata Group: AI Legal Document Intelligence System - Frontend
+
+## Frontend
+
+The frontend of the Tata Legal AI — Legal Document Intelligence System is developed using React and Vite.
+
+It provides the complete user-facing interface through which users can upload legal PDF documents, interact with the system, and view AI-generated legal analysis in a structured format.
+
+### Frontend Technologies
+
+The frontend is built using:
+
+- React
+- Vite
+- JavaScript
+- HTML
+- CSS
+- REST API integration
+
+### Frontend Responsibilities
+
+The frontend handles the complete user interaction layer of the application.
+
+It provides functionality for:
+
+- Uploading legal PDF documents
+- Sending documents to the FastAPI backend
+- Displaying document-processing results
+- Displaying extracted clauses
+- Displaying clause summaries
+- Displaying risk levels
+- Displaying risk reasons
+- Displaying AI-generated recommendations
+- Displaying analysis results
+- Supporting the human review workflow
+- Communicating with the backend through REST APIs
+
+### Frontend Application Flow
+
+The frontend follows a request-and-response architecture.
+
+```text
+User
+ |
+ v
+React Frontend
+ |
+ v
+PDF Upload
+ |
+ v
+API Request
+ |
+ v
+FastAPI Backend
+ |
+ v
+Document Processing
+ |
+ v
+OCR / Text Extraction
+ |
+ v
+Parsing
+ |
+ v
+Clause Extraction
+ |
+ v
+RAG Retrieval
+ |
+ v
+Gemini AI Analysis
+ |
+ v
+JSON Response
+ |
+ v
+React Frontend
+ |
+ v
+Analysis Results
+
+Document Upload
+
+The user can select a legal PDF document from the frontend and submit it for analysis.
+
+The selected document is sent to the FastAPI backend through the /upload endpoint.
+
+PDF File
+   |
+   v
+React Upload Interface
+   |
+   v
+FormData
+   |
+   v
+POST /upload
+   |
+   v
+FastAPI Backend
+
+After processing is completed, the backend returns the analysis result to the frontend.
+
+Frontend-Backend Integration
+
+The frontend communicates with the FastAPI backend using HTTP REST APIs.
+
+The backend URL is configured through the Vite environment variable:
+
+VITE_API_BASE_URL
+
+This allows the frontend to communicate with different backend environments, including local development and the deployed Render backend.
+
+The integration flow is:
+
+React Frontend
+      |
+      v
+API Client
+      |
+      v
+FastAPI REST API
+      |
+      v
+Backend Processing
+      |
+      v
+JSON Response
+      |
+      v
+React Frontend
+      |
+      v
+Results Display
+
+API Client
+
+The frontend uses a centralized API client for communication with the backend.
+
+The API client handles:
+
+API requests
+Request headers
+JSON responses
+FormData requests
+Authentication token handling
+Request timeout
+Backend error handling
+Backend connection errors
+
+For document upload, the selected PDF is sent to the backend using FormData.
+
+The primary document-processing request is:
+
+POST /upload
+
+Document Service
+
+The frontend contains a document service for handling document-related operations.
+
+The document service handles:
+
+Document upload
+Document retrieval
+Storing the latest analysis result
+Storing the current document ID
+Communication with the backend API
+
+The document upload flow is:
+
+User Selects PDF
+      |
+      v
+documentService
+      |
+      v
+FormData
+      |
+      v
+API Client
+      |
+      v
+POST /upload
+      |
+      v
+FastAPI Backend
+      |
+      v
+Analysis Result
+      |
+      v
+React Frontend
+
+Result Display
+
+After the backend completes the document-processing pipeline, the frontend receives a structured JSON response.
+
+The frontend displays information such as:
+
+Document information
+Extracted clauses
+Clause summaries
+Risk levels
+Risk explanations
+Recommendations
+AI-generated analysis
+
+The results are presented in a structured interface so that users can understand the analysis more easily.
+
+Human Approval Interface
+
+The frontend supports the Human-in-the-Loop review workflow.
+
+AI-generated results can be reviewed by a human before the final action is taken.
+
+The review flow is:
+
+AI Generated Analysis
+        |
+        v
+Human Review
+        |
+   +----+----+----+
+   |         |    |
+   v         v    v
+Approve    Reject Escalate
+   |
+   v
+Updated Result
+
+The frontend communicates the review actions to the corresponding backend APIs.
+
+The supported review actions include:
+
+Approve
+Reject
+Edit
+Escalate
+Session-Based Result Handling
+
+The frontend uses browser session storage to maintain the current document context during the user session.
+
+The application stores:
+
+Latest analysis result
+Current document ID
+
+This allows the frontend to maintain the latest processed document and its analysis while the user interacts with the application.
+
+Frontend Project Structure
+
+frontend/
+|
+├── src/
+|   |
+|   ├── components/
+|   ├── data/
+|   ├── hooks/
+|   ├── i18n/
+|   ├── layouts/
+|   ├── pages/
+|   |
+|   ├── services/
+|   |   ├── api.js
+|   |   └── documentService.js
+|   |
+|   ├── App.jsx
+|   ├── index.css
+|   └── main.jsx
+|
+├── public/
+|
+├── package.json
+├── vite.config.js
+└── index.html
+
+Frontend Development
+
+To run the frontend locally, install the required dependencies and start the Vite development server.
+
+npm install
+npm run dev
+
+The Vite development server starts the React application locally.
+
+The frontend then communicates with the configured FastAPI backend.
+
+Frontend Deployment
+
+The React + Vite frontend is deployed using Netlify.
+
+The deployment flow is:
+
+React + Vite
+      |
+      v
+Production Build
+      |
+      v
+Netlify
+      |
+      v
+VITE_API_BASE_URL
+      |
+      v
+Render Backend
+
+The frontend is deployed separately from the backend and communicates with the deployed FastAPI service through REST APIs.
+
+Frontend Role in the Complete System
+
+The frontend acts as the presentation and interaction layer of the Tata Legal AI system.
+
+It connects the user with the complete backend processing pipeline.
+
+                    React Frontend
+                          |
+                          v
+                     FastAPI API
+                          |
+                          v
+                  Document Processing
+                          |
+              +-----------+-----------+
+              |                       |
+              v                       v
+        OCR / Parsing         Clause Extraction
+                                      |
+                                      v
+                                RAG Retrieval
+                                      |
+                                      v
+                                  ChromaDB
+                                      |
+                                      v
+                                 Gemini LLM
+                                      |
+                                      v
+                                Risk Analysis
+                                      |
+                                      v
+                                Human Review
+                                      |
+                                      v
+                                 SQLite DB
+                                      |
+                                      v
+                                 API Response
+                                      |
+                                      v
+                              React Frontend
+
+The frontend therefore provides the complete user-facing layer, while the backend performs document processing, OCR, parsing, clause extraction, RAG retrieval, AI analysis, risk assessment, human approval, and database persistence.
+
+TATA GROUP : AI Legal Document Intelligence System - Deployment
+
+## 🚀 Deployment
+
+The Tata Legal AI Document Intelligence System is deployed using a modern cloud-based architecture.
+
+### Frontend
+- **Platform:** Netlify
+- **Technology:** React + Vite
+- The frontend provides the user interface for PDF upload, document analysis, risk assessment, clause extraction, and AI-generated results.
+
+### Backend
+- **Platform:** Render
+- **Technology:** FastAPI + Python
+- The backend exposes REST APIs for document processing, OCR, RAG retrieval, and AI analysis.
+
+### Containerization
+- **Docker** is used to package the backend and its system dependencies.
+- **Tesseract OCR** is installed inside the Docker container for scanned/image-based PDF processing.
+- **Poppler** is used for PDF-to-image conversion during OCR processing.
+
+### AI & RAG
+- **Google Gemini API** is used for LLM-based analysis.
+- **Gemini Embedding (`gemini-embedding-001`)** is used for semantic embeddings.
+- **ChromaDB** is used as the vector database for storing and retrieving relevant legal document chunks.
+- **LangChain** is used to implement the RAG workflow.
+
+### Deployment Flow
+
+Frontend (Netlify)
+        ↓
+FastAPI Backend (Render)
+        ↓
+Docker Container
+        ↓
+PDF Processing + OCR
+        ↓
+RAG Retrieval using ChromaDB
+        ↓
+Gemini LLM
+        ↓
+Legal Analysis & Risk Assessment
+        ↓
+Results displayed on Frontend
+
+
+## LIVE LINKS :
+
+### 🔗 Live Links
+
+- **Frontend:** https://eclectic-biscotti-bca046.netlify.app/
+- **Backend:** https://skyai-squads-aco3.onrender.com/
+- **GitHub Repository:** https://github.com/Hariom-codes/SkyAI-Squads
+
+## Team Contribution
+
+1. **Hariom Upadhyay : Team Leader/Group Representative, Product Testing & Solution, RAG & LangChain & Vector Database, LLM, Backend, Frontend, Deployment**<br><br>
+
+2. **Tanvi Rathore : Backend Handling, Backend-Frontend Integration, SQLite Database Handling**<br><br>
+
+3. **Poojitha Gaddam : OCR Handling**<br><br>
+
+4. **Mohmd Amaan Zaidi : Parsing**<br><br>
+
+5. **Prabhat Kumar Sasmal : Clause Extraction**<br><br>
+
+6. **Jyoti : RAG & LangChain & LLM Handling**<br><br>
+
+7. **Vishwajith Sonawane : Human Approval Handling**<br><br>
+
+8. **Suryansh : Frontend & Backend Deployment**<br><br>
+
+9. **Anas Khan : Frontend Handling**<br><br>
+
+10. **Shivaji, Vipul, Hitesh : Additional Contribution**
+
+
+## 🏁 Project Conclusion
+
+The Tata Legal AI Document Intelligence System provides an AI-powered solution for simplifying and accelerating legal document analysis. It combines **OCR, PDF parsing, clause extraction, Retrieval-Augmented Generation (RAG), LangChain, vector search, and Large Language Models (LLMs)** to process complex legal documents and generate meaningful insights.
+
+The system helps identify important clauses, retrieve relevant legal knowledge, assess potential risks, and present the results through an easy-to-use interface. The integration of **Gemini, ChromaDB, and modern cloud deployment technologies** makes the solution practical and scalable.
+
+Overall, the project demonstrates how **Generative AI and RAG can be applied to the legal domain** to reduce manual effort, improve information retrieval, and support faster and more structured legal decision-making.
