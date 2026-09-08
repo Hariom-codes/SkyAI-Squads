@@ -1,10 +1,10 @@
-# ⚠️ IMPORTANT — PROJECT EVALUATION NOTE
+#  IMPORTANT — PROJECT EVALUATION NOTE
 
 Please note that the `backend` and `frontend` folders available directly at the repository root are older/previous versions.
 
 For evaluation, please use the **current and final Tata Legal AI implementation** located at:
 
-👉 **[Open Current Tata Legal AI Project](https://github.com/Hariom-codes/SkyAI-Squads/tree/main/Tata-Legal-AI-Demo-Ready-Corrected-v2%20-%20Copy/Tata-Legal-AI-Demo-Ready-Corrected-v2%20copy)**
+ **[Open Current Tata Legal AI Project](https://github.com/Hariom-codes/SkyAI-Squads/tree/main/Tata-Legal-AI-Demo-Ready-Corrected-v2%20-%20Copy/Tata-Legal-AI-Demo-Ready-Corrected-v2%20copy)**
 
 This folder contains the current integrated version of the Tata Legal AI project, including the latest backend, frontend, AI workflow, RAG pipeline, human review workflow, and document persistence/retrieval implementation.
 
