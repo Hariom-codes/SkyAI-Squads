@@ -137,8 +137,8 @@ Identifies and structures clauses from the extracted document text. The clauses 
 
 Provides Retrieval-Augmented Generation support using:
 
-- Sentence Transformers
-- `all-MiniLM-L6-v2`
+- Google Gemini
+- gemini-embedding-001
 - ChromaDB
 - Collection: `tata_legal_knowledge`
 
@@ -214,7 +214,7 @@ The complete analysis result is stored as JSON.
 **Embedding model:**
 
 ```text
-all-MiniLM-L6-v2
+gemini-embedding-001
 ```
 
 **Vector database:**
