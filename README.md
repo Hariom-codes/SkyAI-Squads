@@ -116,6 +116,34 @@ https://skyai-squads-aco3.onrender.com/
 
 ---
 
+## Team Contributions
+
+1. **Hariom Upadhyay** — Team Leader / Group Representative, Product Testing and Solution, RAG, LangChain, Vector Database, LLM, Backend, Frontend and Deployment.
+
+2. **Tanvi Rathore** — Backend Handling, Backend–Frontend Integration and SQLite Database Handling.
+
+3. **Poojitha Gaddam** — OCR Handling and Text Extraction.
+
+4. **Mohmd Amaan Zaidi** — Legal Document Parsing.
+
+5. **Prabhat Kumar Sasmal** — Legal Clause Extraction.
+
+6. **Jyoti** — RAG, LangChain and LLM Handling.
+
+7. **Vishwajith Sonawane** — Human Approval and Review Handling.
+
+8. **Suryansh** — Frontend and Backend Deployment.
+
+9. **Anas Khan** — Frontend Handling and User Interface Development.
+
+10. **Shivaji** — Additional Project Contributions.
+
+11. **Vipul** — Additional Project Contributions.
+
+12. **Hitesh** — Additional Project Contributions.
+
+
+
 # Backend
 
 Backend service for the **Tata Legal AI Legal Document Intelligence System**.
