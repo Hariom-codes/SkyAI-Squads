@@ -695,3 +695,16 @@ The backend is designed to work with the team's current frontend upload and revi
 The core document intelligence, AI analysis, human review, persistence, and retrieval workflow is implemented and testable through the backend API.
 
 The backend is ready for frontend integration and can be further hardened for production deployment as required.
+
+## 24. Team Contribution
+
+**Hariom Upadhyay : Team Leader/Group Representative , Product Testing & Solution , RAG & Langchain & Vector Database , LLM , Backend , FRontend , Deployment
+**Tanvi Rathore : Backend Handling , Backend-Frontend Integration , SQlite Database Handling
+**Poojitha Gaddam : OCR Handling
+**mohmd Amaan Zaidi : Parsing
+**Prabhat : Clause Extraction
+**Jyoti : RAG & Langchain & LLM Handling
+**Vishwajith Sonawane : Human Approval Handling
+**Suryansh : Frontnd & Backend Deployment
+**Anas : Frontend Handling
+**Shivaji , Vipul , Hitesh : Additional Contribution
