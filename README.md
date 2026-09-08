@@ -569,6 +569,49 @@ This verifies the document-result persistence and retrieval workflow.
 
 ---
 
+## 🚀 Deployment
+
+The Tata Legal AI Document Intelligence System is deployed using a modern cloud-based architecture.
+
+### Frontend
+- **Platform:** Netlify
+- **Technology:** React + Vite
+- The frontend provides the user interface for PDF upload, document analysis, risk assessment, clause extraction, and AI-generated results.
+
+### Backend
+- **Platform:** Render
+- **Technology:** FastAPI + Python
+- The backend exposes REST APIs for document processing, OCR, RAG retrieval, and AI analysis.
+
+### Containerization
+- **Docker** is used to package the backend and its system dependencies.
+- **Tesseract OCR** is installed inside the Docker container for scanned/image-based PDF processing.
+- **Poppler** is used for PDF-to-image conversion during OCR processing.
+
+### AI & RAG
+- **Google Gemini API** is used for LLM-based analysis.
+- **Gemini Embedding (`gemini-embedding-001`)** is used for semantic embeddings.
+- **ChromaDB** is used as the vector database for storing and retrieving relevant legal document chunks.
+- **LangChain** is used to implement the RAG workflow.
+
+### Deployment Flow
+
+Frontend (Netlify)
+        ↓
+FastAPI Backend (Render)
+        ↓
+Docker Container
+        ↓
+PDF Processing + OCR
+        ↓
+RAG Retrieval using ChromaDB
+        ↓
+Gemini LLM
+        ↓
+Legal Analysis & Risk Assessment
+        ↓
+Results displayed on Frontend
+
 ## 19. Development Status
 
 ### Core Backend
