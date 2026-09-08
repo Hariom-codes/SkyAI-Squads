@@ -1,4 +1,4 @@
-# Tata Legal AI – Legal Document Intelligence System
+# TATA GROUP : AI Legal Document Intelligence System
 
 ## Team Name
 
