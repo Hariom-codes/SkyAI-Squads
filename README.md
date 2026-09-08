@@ -91,12 +91,12 @@ Users can upload a legal PDF and obtain structured AI-assisted insights from the
 ### Frontend
 
 **Live Frontend:**
-[Add Frontend Live Link Here]
+https://eclectic-biscotti-bca046.netlify.app/
 
 ### Backend API
 
 **Live Backend:**
-[Add Backend Live Link Here]
+https://skyai-squads-aco3.onrender.com/
 
 ### GitHub Repository
 
@@ -106,13 +106,11 @@ https://github.com/Hariom-codes/SkyAI-Squads
 ### Project Presentation
 
 **Project PPT:**
-[Add PPT Link Here]
+
 
 ---
 
 # Backend
-
-## Backend
 
 Backend service for the **Tata Legal AI Legal Document Intelligence System**.
 
@@ -809,3 +807,1170 @@ The backend is designed to work with the team's current frontend upload and revi
 The core document intelligence, AI analysis, human review, persistence, and retrieval workflow is implemented and testable through the backend API.
 
 The backend is ready for frontend integration and can be further hardened for production deployment as required.
+
+
+# RAG & Langchain Pipeline
+
+###Done by : Hariom (GR) & Tanvi
+
+## Retrieval-Augmented Generation (RAG)
+
+<details>
+<summary><strong>Click to expand RAG implementation details</strong></summary>
+
+### Overview
+
+Tata Legal AI uses Retrieval-Augmented Generation (RAG) to ground AI-based legal document analysis in the project's dedicated legal knowledge base.
+
+The RAG pipeline retrieves relevant legal information from the knowledge base and provides that information as context to the Large Language Model before generating an analysis.
+
+This reduces the need for the LLM to rely only on its pretrained knowledge and allows the system to use project-specific legal reference material.
+
+### RAG Architecture
+
+```text
+Legal Knowledge Base
+        ↓
+PDF Documents
+        ↓
+Document Loading
+        ↓
+Text Extraction
+        ↓
+Text Chunking
+        ↓
+Gemini Embeddings
+        ↓
+ChromaDB
+        ↓
+Semantic Similarity Search
+        ↓
+Relevant Legal Context
+        ↓
+Gemini LLM
+        ↓
+AI-Assisted Legal Analysis
+```
+
+### Legal Knowledge Base
+
+The project uses a dedicated legal knowledge base containing legal reference PDF documents.
+
+The documents are processed and converted into smaller text chunks before being embedded and stored in the vector database.
+
+The purpose of the knowledge base is to provide relevant legal context during AI-assisted document analysis.
+
+### Document Processing
+
+The RAG pipeline begins by loading and processing the legal documents.
+
+The general workflow is:
+
+```text
+PDF
+ ↓
+Text Extraction
+ ↓
+Document Objects
+ ↓
+Text Splitting
+ ↓
+Chunks
+```
+
+The extracted content is divided into smaller sections so that individual pieces of relevant legal information can be efficiently embedded and retrieved.
+
+### Text Chunking
+
+Large legal documents cannot always be passed directly to an LLM or efficiently searched as complete documents.
+
+Therefore, the system divides documents into smaller chunks.
+
+Chunking provides several benefits:
+
+* Improves semantic retrieval.
+* Reduces unnecessary context.
+* Allows relevant sections to be retrieved independently.
+* Makes large legal documents easier to search.
+* Helps preserve useful context around legal clauses.
+
+The chunking stage is implemented as part of the LangChain-based document processing pipeline.
+
+### Gemini Embeddings
+
+The later RAG implementation uses Google's Gemini embedding model:
+
+```text
+Model: gemini-embedding-001
+Embedding Dimension: 768
+```
+
+The embedding model converts legal text into numerical vector representations.
+
+Each document chunk is transformed into a 768-dimensional vector.
+
+Conceptually:
+
+```text
+Legal Text Chunk
+       ↓
+gemini-embedding-001
+       ↓
+768-Dimensional Vector
+```
+
+These vectors represent the semantic meaning of the legal text and allow the system to perform semantic similarity searches.
+
+### Document and Query Embeddings
+
+The embedding process is used for both the stored legal documents and user queries.
+
+```text
+Legal Document Chunk
+        ↓
+Gemini Embedding
+        ↓
+768-D Vector
+        ↓
+ChromaDB
+
+
+User Query
+        ↓
+Gemini Embedding
+        ↓
+768-D Query Vector
+        ↓
+Similarity Search
+```
+
+Because documents and queries are represented in the same embedding space, the system can retrieve semantically related legal information even when the wording is not exactly identical.
+
+### Retrieval
+
+Once the user's query or document analysis request reaches the RAG layer, the query is converted into an embedding.
+
+The vector database then searches for the most relevant stored legal chunks.
+
+```text
+User Query
+    ↓
+Query Embedding
+    ↓
+Vector Similarity Search
+    ↓
+Relevant Legal Chunks
+    ↓
+Retrieved Context
+```
+
+The retrieved information is then passed to the generation stage.
+
+### ChromaDB Vector Store
+
+ChromaDB is used as the vector database for the RAG system.
+
+Its role is to:
+
+* Store document embeddings.
+* Store associated document chunks.
+* Maintain document metadata.
+* Perform semantic similarity search.
+* Retrieve relevant legal information.
+
+The RAG architecture therefore separates knowledge storage from language generation:
+
+```text
+Legal Knowledge
+      ↓
+Gemini Embeddings
+      ↓
+ChromaDB
+      ↓
+Retrieval
+      ↓
+Gemini LLM
+```
+
+### Context Retrieval
+
+The retrieved legal chunks are combined into a context that is provided to the LLM.
+
+```text
+Retrieved Chunk 1
+       +
+Retrieved Chunk 2
+       +
+Retrieved Chunk 3
+       ↓
+Combined Legal Context
+       ↓
+LLM Prompt
+```
+
+The purpose of this stage is to ensure that the LLM receives relevant project-specific legal information before generating its response.
+
+### RAG in Legal Risk Analysis
+
+RAG is particularly important for the project's legal risk analysis workflow.
+
+When a clause is analyzed, the system can retrieve relevant legal reference information and provide it as context for the AI analysis.
+
+The overall process can be represented as:
+
+```text
+Uploaded Legal Document
+          ↓
+Clause Extraction
+          ↓
+Clause / Query
+          ↓
+Gemini Query Embedding
+          ↓
+ChromaDB Retrieval
+          ↓
+Relevant Legal Knowledge
+          ↓
+Context + Clause
+          ↓
+Gemini LLM
+          ↓
+Risk Analysis
+```
+
+This allows the system to combine information from the uploaded document with relevant information from the project's legal knowledge base.
+
+### Benefits of RAG
+
+The RAG architecture provides several advantages:
+
+* Project-specific legal knowledge retrieval.
+* Semantic rather than exact keyword-based search.
+* Better contextual grounding.
+* Reduced dependence on unsupported model knowledge.
+* Ability to update the knowledge base independently of the LLM.
+* Traceability of retrieved legal reference material.
+* Better support for domain-specific legal analysis.
+
+</details>
+
+---
+
+## LangChain
+
+<details>
+<summary><strong>Click to expand LangChain implementation details</strong></summary>
+
+### Overview
+
+LangChain is used as the orchestration and integration framework connecting the major components of the RAG and LLM pipeline.
+
+It provides common interfaces for document processing, embeddings, vector stores, retrieval, prompts, and language models.
+
+The integration can be represented as:
+
+```text
+Documents
+    ↓
+LangChain Document Processing
+    ↓
+Text Splitter
+    ↓
+Embedding Interface
+    ↓
+ChromaDB
+    ↓
+Retriever
+    ↓
+Prompt / Context
+    ↓
+Gemini LLM
+```
+
+### LangChain Responsibilities
+
+Within Tata Legal AI, LangChain is used to integrate:
+
+* Document processing.
+* Text splitting.
+* Embedding interfaces.
+* Vector database integration.
+* Retrieval.
+* Prompt construction.
+* LLM communication.
+* RAG orchestration.
+
+### Document Integration
+
+Legal documents are represented in a format that can be processed through LangChain components.
+
+This allows the downstream RAG pipeline to work consistently with document content and metadata.
+
+### Embedding Integration
+
+The Gemini embedding model is integrated into the vector retrieval architecture so that legal document chunks can be converted into vectors before being stored in ChromaDB.
+
+```text
+Legal Text
+    ↓
+Gemini Embedding
+    ↓
+768-Dimensional Vector
+    ↓
+ChromaDB
+```
+
+LangChain provides the abstraction layer that allows the embedding component to work with the vector store.
+
+### ChromaDB Integration
+
+LangChain provides the integration between the RAG pipeline and ChromaDB.
+
+The vector store is responsible for:
+
+```text
+Embedding Storage
+        ↓
+Vector Search
+        ↓
+Relevant Document Retrieval
+```
+
+This allows the application to query the legal knowledge base through a retriever rather than implementing the complete vector-search mechanism manually.
+
+### Retriever
+
+The retriever acts as the connection between the user's query and the stored legal knowledge.
+
+```text
+User Query
+    ↓
+Retriever
+    ↓
+ChromaDB
+    ↓
+Relevant Documents
+```
+
+The retrieved documents are then passed to the RAG generation stage.
+
+### Prompt and Context Integration
+
+LangChain helps combine the retrieved context with the user's query before sending the request to the LLM.
+
+Conceptually:
+
+```text
+Retrieved Legal Context
+          +
+User / Clause Query
+          ↓
+      Prompt
+          ↓
+      Gemini LLM
+```
+
+This allows the LLM to generate responses based on the retrieved legal information.
+
+### LLM Integration
+
+LangChain also provides the interface through which the application communicates with the LLM.
+
+The architecture separates retrieval from generation:
+
+```text
+ChromaDB
+   ↓
+Retriever
+   ↓
+Context
+   ↓
+LangChain
+   ↓
+Gemini LLM
+   ↓
+Response
+```
+
+### Why LangChain?
+
+LangChain provides a modular architecture that makes it easier to connect and manage different AI components.
+
+For Tata Legal AI, this makes it possible to maintain a pipeline where:
+
+* The embedding model can be managed independently.
+* ChromaDB handles vector storage and retrieval.
+* Retrieval remains separate from generation.
+* The LLM can receive structured context.
+* Individual pipeline components can be modified without redesigning the complete system.
+
+</details>
+
+---
+
+## Gemini Embeddings
+
+<details>
+<summary><strong>Click to expand Gemini embedding implementation</strong></summary>
+
+### Embedding Model
+
+The RAG system uses:
+
+```text
+Google Gemini Embedding Model
+gemini-embedding-001
+```
+
+The embedding output is:
+
+```text
+768 dimensions
+```
+
+### Purpose
+
+Embeddings convert human-readable legal text into numerical representations that capture semantic relationships.
+
+For example:
+
+```text
+"Termination of the agreement"
+```
+
+and
+
+```text
+"Conditions under which the contract may be terminated"
+```
+
+can be represented as vectors that are semantically related even though their wording differs.
+
+### Embedding Pipeline
+
+```text
+Legal Text
+    ↓
+Gemini Embedding API
+    ↓
+768-Dimensional Vector
+    ↓
+ChromaDB
+```
+
+### Query Embedding
+
+When a user asks a question, the query is also converted into an embedding.
+
+```text
+User Question
+     ↓
+gemini-embedding-001
+     ↓
+768-D Query Vector
+     ↓
+Similarity Search
+```
+
+The vector database then compares this query representation with the stored legal document vectors.
+
+### Semantic Search
+
+The use of embeddings enables semantic retrieval instead of relying only on exact keyword matching.
+
+```text
+Keyword Search
+    → Looks for matching words
+
+Semantic Search
+    → Looks for matching meaning
+```
+
+This is particularly useful for legal documents because the same legal concept can be expressed using different terminology.
+
+</details>
+
+---
+
+## Large Language Model (LLM)
+
+<details>
+<summary><strong>Click to expand Gemini LLM implementation details</strong></summary>
+
+### Overview
+
+The Large Language Model is the generation and reasoning layer of Tata Legal AI.
+
+The RAG pipeline retrieves relevant legal information first. The retrieved information is then provided to the Gemini LLM along with the relevant clause or user query.
+
+```text
+Retrieved Legal Context
+          +
+Legal Clause / Query
+          ↓
+      Gemini LLM
+          ↓
+   AI-Generated Analysis
+```
+
+### Role of the LLM
+
+The LLM is responsible for interpreting the retrieved legal context and generating structured AI-assisted analysis.
+
+Within the system, the LLM can support analysis such as:
+
+* Clause understanding.
+* Clause summarization.
+* Legal risk identification.
+* Risk reasoning.
+* Recommendation generation.
+* Context-based question answering.
+
+### RAG + LLM Workflow
+
+```text
+Legal Document
+      ↓
+Clause Extraction
+      ↓
+Clause / Query
+      ↓
+Gemini Query Embedding
+      ↓
+ChromaDB
+      ↓
+Relevant Legal Knowledge
+      ↓
+Retrieved Context
+      ↓
+Gemini LLM
+      ↓
+Structured Legal Analysis
+```
+
+### Context-Grounded Generation
+
+The LLM receives retrieved information from the project's legal knowledge base rather than operating independently.
+
+The conceptual prompt structure is:
+
+```text
+System Instructions
+        +
+Retrieved Legal Context
+        +
+Legal Clause / User Query
+        ↓
+Gemini LLM
+        ↓
+Generated Analysis
+```
+
+The retrieved context acts as supporting information for the generated response.
+
+### Risk Analysis Output
+
+For legal clause analysis, the AI analysis is structured around important fields such as:
+
+```text
+Clause Name
+Summary
+Risk Level
+Risk Reason
+Recommendation
+```
+
+This transforms raw legal text into a more structured format that can be reviewed by users.
+
+### Example Output Structure
+
+```json
+{
+  "clause_name": "Termination Clause",
+  "summary": "Summary of the clause",
+  "risk_level": "Medium",
+  "risk_reason": "Reason for the identified risk",
+  "recommendation": "Suggested action for review"
+}
+```
+
+The exact output depends on the uploaded document, extracted clause, and retrieved legal context.
+
+### LLM and Human Review
+
+The generated analysis is intended to support human decision-making rather than replace human review.
+
+The overall workflow is:
+
+```text
+Document
+   ↓
+AI Processing
+   ↓
+RAG Retrieval
+   ↓
+Gemini Analysis
+   ↓
+Risk Assessment
+   ↓
+Human Review
+   ↓
+Approval / Rejection
+```
+
+This creates a human-in-the-loop architecture for the legal document intelligence system.
+
+### Separation of Responsibilities
+
+The AI architecture separates the responsibilities of embeddings, retrieval, and generation:
+
+| Component                                   | Responsibility                                                  |
+| ------------------------------------------- | --------------------------------------------------------------- |
+| **Gemini Embedding `gemini-embedding-001`** | Converts legal text and queries into 768-dimensional vectors    |
+| **ChromaDB**                                | Stores embeddings and performs similarity retrieval             |
+| **LangChain**                               | Connects and orchestrates the AI pipeline                       |
+| **Gemini LLM**                              | Interprets retrieved context and generates AI-assisted analysis |
+| **Human Reviewer**                          | Reviews AI output and makes the final approval decision         |
+
+### Complete AI Pipeline
+
+```text
+                 LEGAL PDF
+                    │
+                    ▼
+             Document Processing
+                    │
+                    ▼
+              Clause Extraction
+                    │
+                    ▼
+              Query / Clause
+                    │
+                    ▼
+        ┌─────────────────────────┐
+        │ Gemini Embedding        │
+        │ gemini-embedding-001    │
+        │ 768 Dimensions          │
+        └────────────┬────────────┘
+                     │
+                     ▼
+                ChromaDB
+                     │
+                     ▼
+            Relevant Legal Context
+                     │
+                     ▼
+              LangChain Pipeline
+                     │
+                     ▼
+              ┌──────────────┐
+              │ Gemini LLM   │
+              └──────┬───────┘
+                     │
+                     ▼
+             Legal Risk Analysis
+                     │
+                     ▼
+               Human Review
+                     │
+                     ▼
+              Final Decision
+```
+
+</details>
+
+
+## Deployment
+
+The Tata Legal AI system is deployed using a separate frontend-backend architecture.
+
+```text
+                    USER
+                     │
+                     ▼
+          React + Vite Frontend
+                     │
+                     │ API Requests
+                     ▼
+              FastAPI Backend
+                     │
+        ┌────────────┼────────────┐
+        ▼            ▼            ▼
+      OCR          RAG          Gemini
+        │            │            │
+        │         ChromaDB       LLM
+        │            │
+        └────────────┼────────────┘
+                     ▼
+              JSON Response
+                     │
+                     ▼
+               Frontend UI
+```
+
+### Frontend Deployment
+
+The frontend is built using **React + Vite** and is deployed as a separate web application.
+
+The frontend communicates with the deployed FastAPI backend through HTTP API requests.
+
+**Frontend Technology:**
+
+* React
+* Vite
+* JavaScript
+* Tailwind CSS
+
+**Frontend Responsibilities:**
+
+* Legal PDF upload.
+* Displaying document processing status.
+* Displaying extracted clauses.
+* Displaying AI-generated summaries.
+* Displaying risk levels and risk reasons.
+* Displaying recommendations.
+* Human approval and review interface.
+* Communicating with backend APIs.
+
+### Backend Deployment
+
+The backend is built using **FastAPI** and deployed as a cloud service.
+
+The deployed backend provides REST APIs used by the frontend for document processing and AI-based legal analysis.
+
+**Backend Technology:**
+
+* Python
+* FastAPI
+* Uvicorn
+* OCR processing
+* RAG pipeline
+* ChromaDB
+* LangChain
+* Gemini Embeddings
+* Gemini LLM
+
+### Backend Deployment URL
+
+**Live Backend:**
+
+[Tata Legal AI Backend](https://skyai-squads-aco3.onrender.com?utm_source=chatgpt.com)
+
+### API Documentation
+
+FastAPI automatically provides interactive API documentation.
+
+For local development:
+
+```text
+http://localhost:8000/docs
+```
+
+The Swagger interface can be used to test and understand the available backend endpoints.
+
+### Environment Variables
+
+API keys and sensitive configuration values are stored using environment variables rather than being hard-coded into the application.
+
+Example:
+
+```env
+GEMINI_API_KEY=your_api_key
+```
+
+The actual API key should never be committed to GitHub.
+
+### Deployment Architecture
+
+```text
+                    Internet
+                       │
+          ┌────────────┴────────────┐
+          │                         │
+          ▼                         ▼
+     Frontend                    Backend
+   React + Vite                 FastAPI
+          │                         │
+          │       REST API          │
+          └────────────────────────►│
+                                    │
+                 ┌──────────────────┼──────────────────┐
+                 │                  │                  │
+                 ▼                  ▼                  ▼
+                OCR              RAG Pipeline       Gemini
+                                   │                  LLM
+                                   ▼
+                                ChromaDB
+```
+
+### Production Request Flow
+
+When a user uploads a legal document:
+
+```text
+1. User uploads PDF
+        ↓
+2. Frontend sends request to FastAPI
+        ↓
+3. Backend validates the document
+        ↓
+4. OCR / PDF processing extracts text
+        ↓
+5. Clauses are identified
+        ↓
+6. RAG retrieves relevant legal knowledge
+        ↓
+7. Gemini LLM performs AI-assisted analysis
+        ↓
+8. Backend generates structured results
+        ↓
+9. Results are returned as JSON
+        ↓
+10. Frontend displays the analysis
+        ↓
+11. Human reviewer reviews the result
+```
+
+### Deployment Benefits
+
+The separate frontend-backend deployment provides:
+
+* Independent frontend and backend development.
+* Scalable backend API architecture.
+* Clear separation of presentation and business logic.
+* Secure handling of API credentials through environment variables.
+* Easy integration between the web interface and AI backend.
+* Ability to update frontend and backend independently.
+
+### Deployment Stack
+
+| Layer                | Technology                    |
+| -------------------- | ----------------------------- |
+| **Frontend**         | React + Vite                  |
+| **Frontend Hosting** | Netlify                       |
+| **Backend**          | FastAPI + Python              |
+| **Backend Hosting**  | Render                        |
+| **API Server**       | Uvicorn                       |
+| **Vector Database**  | ChromaDB                      |
+| **RAG Framework**    | LangChain                     |
+| **Embeddings**       | Gemini `gemini-embedding-001` |
+| **LLM**              | Gemini                        |
+| **Database**         | SQLite                        |
+| **Version Control**  | Git + GitHub                  |
+
+</details>
+
+
+## Frontend
+
+The Tata Legal AI frontend is built using **React + Vite** and provides the user-facing interface for uploading legal documents, viewing AI-generated analysis, and managing the human review workflow.
+
+### Frontend Technology Stack
+
+| Technology       | Purpose                                |
+| ---------------- | -------------------------------------- |
+| **React**        | Building the user interface            |
+| **Vite**         | Frontend development and build tool    |
+| **JavaScript**   | Application logic                      |
+| **Tailwind CSS** | Styling and responsive UI              |
+| **REST APIs**    | Communication with the FastAPI backend |
+
+### Frontend Architecture
+
+The frontend follows a component-based React architecture.
+
+```text id="k6v9m1"
+                    React Application
+                           │
+          ┌────────────────┼────────────────┐
+          │                │                │
+          ▼                ▼                ▼
+      Components         Pages          Layouts
+          │                │                │
+          └────────────────┼────────────────┘
+                           │
+                           ▼
+                    API / Services
+                           │
+                           ▼
+                  FastAPI Backend
+```
+
+### Main Frontend Responsibilities
+
+The frontend provides the following functionality:
+
+* Legal PDF document upload.
+* Document processing status.
+* Display of extracted legal clauses.
+* AI-generated clause summaries.
+* Risk-level visualization.
+* Risk reason and explanation.
+* AI recommendations.
+* Human approval and review workflow.
+* Document result display.
+* Communication with backend REST APIs.
+
+### Document Upload
+
+Users can upload a legal PDF through the frontend interface.
+
+```text id="3n2p7q"
+User
+ ↓
+Select Legal PDF
+ ↓
+Upload
+ ↓
+Frontend
+ ↓
+FastAPI API
+ ↓
+Backend Processing
+```
+
+The frontend sends the uploaded document to the backend, where PDF processing, OCR, clause extraction, RAG retrieval, and AI analysis are performed.
+
+### API Integration
+
+The React frontend communicates with the FastAPI backend through REST APIs.
+
+The API layer handles operations such as:
+
+```text id="b9k4t2"
+PDF Upload
+     ↓
+POST /upload
+     ↓
+FastAPI Backend
+     ↓
+Processing
+     ↓
+JSON Response
+     ↓
+React UI
+```
+
+The frontend uses the backend response to dynamically display the document analysis results.
+
+### Results Dashboard
+
+After processing, the frontend presents the AI-generated results in a structured interface.
+
+The results can include:
+
+```text id="v8r2m6"
+Document
+   │
+   ├── Clause Name
+   ├── Clause Summary
+   ├── Risk Level
+   ├── Risk Reason
+   └── Recommendation
+```
+
+This makes the output easier for users to understand compared with displaying raw AI-generated text.
+
+### Risk Visualization
+
+The frontend visually presents the risk level associated with analyzed clauses.
+
+The interface allows users to quickly identify clauses that may require additional attention.
+
+```text id="n4p7x2"
+Legal Clause
+     ↓
+AI Analysis
+     ↓
+Risk Level
+     ↓
+Risk Explanation
+     ↓
+Recommendation
+```
+
+### Human-in-the-Loop Interface
+
+The frontend also supports the human approval workflow.
+
+Reviewers can interact with AI-generated results and perform actions such as:
+
+* View pending clauses.
+* Review AI analysis.
+* Approve a clause.
+* Reject a clause.
+* Edit the AI-generated result.
+* Escalate a clause for further review.
+
+```text id="z3c8w5"
+AI Analysis
+     ↓
+Human Review
+     │
+     ├── Approve
+     ├── Reject
+     ├── Edit
+     └── Escalate
+```
+
+This ensures that the AI output can be reviewed by a human before a final decision is made.
+
+### Frontend–Backend Communication
+
+The frontend and backend are deployed separately but communicate through REST APIs.
+
+```text id="p7d2k9"
+┌──────────────────────────┐
+│       React Frontend     │
+│          + Vite          │
+└────────────┬─────────────┘
+             │
+             │ HTTP / REST API
+             ▼
+┌──────────────────────────┐
+│      FastAPI Backend     │
+│          Python          │
+└────────────┬─────────────┘
+             │
+     ┌───────┼────────┐
+     ▼       ▼        ▼
+    OCR     RAG     Gemini
+             │        LLM
+             ▼
+          ChromaDB
+```
+
+### Frontend Project Structure
+
+The React application is organized into reusable modules and components.
+
+```text id="e5r8u1"
+frontend/
+│
+├── src/
+│   ├── components/
+│   ├── data/
+│   ├── hooks/
+│   ├── i18n/
+│   ├── layouts/
+│   ├── pages/
+│   ├── services/
+│   ├── App.jsx
+│   ├── index.css
+│   └── main.jsx
+│
+├── package.json
+├── vite.config.js
+├── tailwind.config.js
+└── postcss.config.js
+```
+
+### Component-Based Design
+
+React components are used to divide the application into reusable UI elements.
+
+This improves:
+
+* Code organization.
+* Maintainability.
+* Reusability.
+* UI consistency.
+* Development efficiency.
+
+### Responsive Interface
+
+The frontend is designed to provide a user-friendly interface for interacting with the legal document intelligence system.
+
+The interface organizes complex AI-generated legal information into structured sections so that users can easily understand the analysis and review the identified risks.
+
+### Frontend Deployment
+
+The frontend is deployed independently from the backend.
+
+**Frontend Framework:** React + Vite
+
+**Hosting Platform:** Netlify
+
+The deployed frontend communicates with the production FastAPI backend through its configured API endpoint.
+
+### Frontend Workflow
+
+```text id="r2m6v8"
+                 USER
+                   │
+                   ▼
+            React Frontend
+                   │
+                   ▼
+             PDF Upload
+                   │
+                   ▼
+             FastAPI API
+                   │
+                   ▼
+          Backend Processing
+                   │
+          ┌────────┼────────┐
+          ▼        ▼        ▼
+         OCR      RAG     Gemini
+                           LLM
+          │        │        │
+          └────────┼────────┘
+                   ▼
+             JSON Response
+                   │
+                   ▼
+             React Frontend
+                   │
+          ┌────────┼────────┐
+          ▼        ▼        ▼
+       Summary    Risk   Recommendation
+                   │
+                   ▼
+             Human Review
+```
+
+</details>
+
+
+## Team Contributions
+
+1. **Hariom Upadhyay** — Team Leader / Group Representative, Product Testing and Solution, RAG, LangChain, Vector Database, LLM, Backend, Frontend and Deployment.
+
+2. **Tanvi Rathore** — Backend Handling, Backend–Frontend Integration and SQLite Database Handling.
+
+3. **Poojitha Gaddam** — OCR Handling and Text Extraction.
+
+4. **Mohmd Amaan Zaidi** — Legal Document Parsing.
+
+5. **Prabhat Kumar Sasmal** — Legal Clause Extraction.
+
+6. **Jyoti** — RAG, LangChain and LLM Handling.
+
+7. **Vishwajith Sonawane** — Human Approval and Review Handling.
+
+8. **Suryansh** — Frontend and Backend Deployment.
+
+9. **Anas Khan** — Frontend Handling and User Interface Development.
+
+10. **Shivaji** — Additional Project Contributions.
+
+11. **Vipul** — Additional Project Contributions.
+
+12. **Hitesh** — Additional Project Contributions.
+
+
+## Conclusion
+
+Tata Legal AI is an AI-powered Legal Document Intelligence System designed to simplify and accelerate the analysis of complex legal documents.
+
+The system combines **OCR, document parsing, clause extraction, RAG, Gemini Embeddings, ChromaDB, LangChain, and Gemini LLM** to retrieve relevant legal knowledge and generate structured clause-level analysis.
+
+By providing **summaries, risk levels, risk reasoning, and recommendations**, the system helps users identify potentially important contractual clauses more efficiently.
+
+The integration of a **Human-in-the-Loop approval workflow** ensures that AI-generated results can be reviewed and validated by a human before making final decisions.
+
+Overall, Tata Legal AI demonstrates how **Generative AI and Retrieval-Augmented Generation can be applied to legal document analysis** to create a more efficient, structured, and review-oriented workflow while keeping human oversight at the center of the decision-making process.
+
+
+                                                              #THANK YOU
