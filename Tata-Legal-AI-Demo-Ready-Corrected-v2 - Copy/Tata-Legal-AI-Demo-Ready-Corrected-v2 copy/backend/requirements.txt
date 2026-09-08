@@ -16,3 +16,5 @@ chromadb
 groq
 
 google-genai==2.20.0
+
+pypdf
