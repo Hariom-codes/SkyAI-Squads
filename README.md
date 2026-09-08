@@ -66,46 +66,51 @@ Relevant Legal Knowledge
         v
 Gemini LLM
 
+## Backend
 
-#  Tata Group: AI Legal Document Intelligence System - **Backend**
+Backend service for the Tata Legal AI Legal Document Intelligence System.
 
-Backend service for the **Tata Legal AI Legal Document Intelligence System**.
+The backend is built with Python and FastAPI and provides the complete document-processing workflow: PDF validation, OCR-based text extraction, clause parsing, RAG-based legal knowledge retrieval, Gemini-based clause analysis, human approval workflow, and document-result persistence and retrieval.
 
-The backend is built with **Python and FastAPI** and provides the complete document-processing workflow: PDF validation, OCR-based text extraction, clause parsing, RAG-based legal knowledge retrieval, Gemini-based clause analysis, human approval workflow, and document-result persistence and retrieval.
+1. Backend Overview
 
----
-
-## 1. Backend Overview
-
-```text
 PDF Upload
-    ↓
+    |
+    v
 File Validation
-    ↓
+    |
+    v
 OCR / Text Extraction
-    ↓
+    |
+    v
 Clause Parsing
-    ↓
+    |
+    v
 RAG Retrieval
-    ↓
+    |
+    v
 ChromaDB Knowledge Base
-    ↓
+    |
+    v
 Google Gemini Analysis
-    ↓
+    |
+    v
 Risk Analysis + Recommendation
-    ↓
+    |
+    v
 Human Review / Approval
-    ↓
+    |
+    v
 Unique Document ID
-    ↓
+    |
+    v
 SQLite Result Persistence
-    ↓
+    |
+    v
 Document Result Retrieval
-```
 
 The backend exposes these capabilities through REST APIs and provides interactive API documentation through Swagger/OpenAPI.
 
----
 
 ## 2. Main Features
 
@@ -766,8 +771,6 @@ The core document intelligence, AI analysis, human review, persistence, and retr
 The backend is ready for frontend integration and can be further hardened for production deployment as required.
 
 
-# Tata Group: AI Legal Document Intelligence System - Frontend
-
 ## Frontend
 
 The frontend of the Tata Legal AI — Legal Document Intelligence System is developed using React and Vite.
@@ -1122,9 +1125,7 @@ It connects the user with the complete backend processing pipeline.
 
 The frontend therefore provides the complete user-facing layer, while the backend performs document processing, OCR, parsing, clause extraction, RAG retrieval, AI analysis, risk assessment, human approval, and database persistence.
 
-TATA GROUP : AI Legal Document Intelligence System - Deployment
-
-## 🚀 Deployment
+## Deployment
 
 The Tata Legal AI Document Intelligence System is deployed using a modern cloud-based architecture.
 
