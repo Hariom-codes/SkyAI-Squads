@@ -698,13 +698,13 @@ The backend is ready for frontend integration and can be further hardened for pr
 
 ## 24. Team Contribution
 
-**Hariom Upadhyay : Team Leader/Group Representative , Product Testing & Solution , RAG & Langchain & Vector Database , LLM , Backend , FRontend , Deployment
-**Tanvi Rathore : Backend Handling , Backend-Frontend Integration , SQlite Database Handling
-**Poojitha Gaddam : OCR Handling
-**mohmd Amaan Zaidi : Parsing
-**Prabhat Kumar Sasmal : Clause Extraction
-**Jyoti : RAG & Langchain & LLM Handling
-**Vishwajith Sonawane : Human Approval Handling
-**Suryansh : Frontnd & Backend Deployment
-**Anas Khan : Frontend Handling
-**Shivaji , Vipul , Hitesh : Additional Contribution
+**Hariom Upadhyay : Team Leader/Group Representative, Product Testing & Solution, RAG & LangChain & Vector Database, LLM, Backend, Frontend, Deployment**<br>
+**Tanvi Rathore : Backend Handling, Backend-Frontend Integration, SQLite Database Handling**<br>
+**Poojitha Gaddam : OCR Handling**<br>
+**Mohmd Amaan Zaidi : Parsing**<br>
+**Prabhat Kumar Sasmal : Clause Extraction**<br>
+**Jyoti : RAG & LangChain & LLM Handling**<br>
+**Vishwajith Sonawane : Human Approval Handling**<br>
+**Suryansh : Frontend & Backend Deployment**<br>
+**Anas Khan : Frontend Handling**<br>
+**Shivaji, Vipul, Hitesh : Additional Contribution**
