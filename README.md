@@ -2,7 +2,7 @@
 
 ## Project Overview
 
-Tata Legal AI — Legal Document Intelligence System is an AI-powered solution developed by **Team SkyAI-Squads** to simplify and accelerate the analysis of legal documents.
+Tata Legal AI — Legal Document Intelligence System is an AI-powered solution developed by **Team SkyAI-Squads** which led by Hariom Upadhyay(Group Representative) to simplify and accelerate the analysis of legal documents.
 
 The system is designed to process legal PDF documents and automatically extract useful information such as clauses, summaries, potential risks, supporting legal knowledge, and recommendations.
 
@@ -290,63 +290,439 @@ The complete analysis result is stored as JSON.
 
 ## 5. RAG Configuration
 
-**Embedding model:**
+## RAG and LangChain Implementation
+
+The RAG (Retrieval-Augmented Generation) module is responsible for connecting the legal knowledge base with the Generative AI analysis pipeline.
+
+The purpose of the RAG system is to retrieve relevant legal information from the stored knowledge base and provide it as contextual information to the Gemini LLM during document analysis.
+
+### RAG Pipeline
 
 ```text
-all-MiniLM-L6-v2
-```
+Legal PDF Knowledge Base
+        |
+        v
+PDF Document Loading
+        |
+        v
+Text Extraction
+        |
+        v
+Document Chunking
+        |
+        v
+Gemini Embeddings
+(gemini-embedding-001)
+        |
+        v
+ChromaDB Vector Database
+        |
+        v
+Semantic Retrieval
+        |
+        v
+Top Relevant Legal Chunks
+        |
+        v
+Gemini LLM
+        |
+        v
+Risk Analysis and Recommendation
 
-**Vector database:**
+RAG Components
 
-```text
+The RAG implementation is organized inside the backend/rag directory.
+
+Document Loading
+
+Legal reference PDFs are loaded from the knowledge-base directory using the PDF document loader.
+
+Each document is processed along with metadata such as its source and page information.
+
+Document Chunking
+
+Large legal documents are divided into smaller text chunks before creating embeddings.
+
+The project uses LangChain's RecursiveCharacterTextSplitter with:
+
+Chunk size: 1200
+Chunk overlap: 150
+
+The overlap helps preserve context between neighboring chunks.
+
+Gemini Embeddings
+
+The project uses Google's Gemini embedding model:
+
+gemini-embedding-001
+
+The generated embeddings use a dimensionality of:
+
+768
+
+Two retrieval-oriented task types are used:
+
+RETRIEVAL_DOCUMENT for knowledge-base documents
+RETRIEVAL_QUERY for user/document queries
+
+The Gemini embedding implementation follows LangChain's Embeddings interface so that it can work directly with the ChromaDB vector store.
+
 ChromaDB
-```
 
-**Collection:**
+The generated embeddings are stored in ChromaDB.
+
+ChromaDB acts as the vector database for the legal knowledge base and allows the system to perform semantic similarity searches.
+
+The vector database stores:
+
+Document chunks
+Embeddings
+Source metadata
+Page information
+Semantic Retrieval
+
+When a clause or query needs legal context, the query is converted into an embedding and searched against the ChromaDB knowledge base.
+
+The retriever is configured to return the top 3 relevant documents.
+
+This allows the system to provide the Gemini LLM with the most relevant legal knowledge instead of processing the entire knowledge base.
+
+LangChain Integration
+
+LangChain is used as the framework for connecting different components of the RAG pipeline.
+
+The RAG implementation uses LangChain for:
+
+Embedding interface
+Document processing
+Text splitting
+ChromaDB integration
+Vector retrieval
+RAG pipeline integration
+
+The overall LangChain flow is:
+
+Documents
+    |
+    v
+LangChain Document Processing
+    |
+    v
+Recursive Character Text Splitter
+    |
+    v
+Gemini Embeddings
+    |
+    v
+ChromaDB
+    |
+    v
+LangChain Retriever
+    |
+    v
+Relevant Context
+    |
+    v
+Gemini LLM
+
+RAG Files
+
+The main RAG-related files are:
+
+backend/
+|
++-- rag/
+|   |
+|   +-- embedding.py
+|   +-- load_documents.py
+|   +-- chunk_documents.py
+|   +-- vector_store.py
+|   +-- retriever.py
+|   +-- rag_pipeline.py
+|   +-- build_vector_db.py
+|
++-- services/
+    |
+    +-- rag_service.py
+File Responsibilities
+embedding.py
+
+Implements the Gemini embedding model using:
+
+gemini-embedding-001
+
+It provides document and query embeddings through the LangChain Embeddings interface.
+
+load_documents.py
+
+Loads the legal PDF documents and prepares them for processing.
+
+It also preserves document metadata such as source and page information.
+
+chunk_documents.py
+
+Splits extracted legal text into smaller chunks using LangChain's RecursiveCharacterTextSplitter.
+
+Configuration:
+
+chunk_size = 1200
+chunk_overlap = 150
+vector_store.py
+
+Initializes and connects the application to ChromaDB.
+
+The Gemini embedding function is used to create and search vector representations of the legal knowledge.
+
+retriever.py
+
+Creates the ChromaDB retriever and retrieves the most relevant legal knowledge for a given query.
+
+The retriever returns the top 3 relevant chunks.
+
+rag_pipeline.py
+
+Coordinates the process of loading legal documents, chunking them, generating embeddings, and storing them in ChromaDB.
+
+build_vector_db.py
+
+Provides the entry point for building the legal knowledge vector database.
+
+rag_service.py
+
+Acts as the service layer between the FastAPI backend and the RAG retrieval system.
+
+It receives a query, retrieves relevant legal documents, and returns the retrieved content along with source and page metadata.
+
+RAG to LLM Flow
+
+The complete process during document analysis is:
+
+Uploaded Legal Document
+        |
+        v
+Clause Extraction
+        |
+        v
+Clause / Query
+        |
+        v
+Gemini Query Embedding
+        |
+        v
+ChromaDB Semantic Search
+        |
+        v
+Top 3 Relevant Legal Chunks
+        |
+        v
+Retrieved Legal Context
+        |
+        v
+Gemini LLM
+        |
+        v
+Risk Assessment
+        |
+        v
+Recommendation
+
+Why RAG is Used
+
+A legal document analysis system should not rely only on the general knowledge of an LLM.
+
+RAG allows the system to retrieve relevant information from the project's own legal knowledge base before generating an answer.
+
+This provides the model with additional domain-specific context and helps make the generated analysis more relevant to the legal documents being processed.
+
+My Contribution
+
+The RAG and LangChain component covers the implementation and integration of:
+
+RAG pipeline
+LangChain document processing
+Text chunking
+Gemini embeddings
+ChromaDB vector database
+Semantic retrieval
+Retriever configuration
+RAG service integration
+Retrieved-context flow to the Gemini LLM
+
+## LLM Integration
+
+The Large Language Model (LLM) is responsible for analyzing the uploaded legal document and generating meaningful legal insights based on the extracted clauses and the relevant context retrieved from the RAG pipeline.
+
+The project uses **Google Gemini** as the Generative AI model.
+
+### LLM Workflow
 
 ```text
-tata_legal_knowledge
-```
+Uploaded Legal Document
+        |
+        v
+Text Extraction
+        |
+        v
+Clause Extraction
+        |
+        v
+Clause / Legal Query
+        |
+        v
+RAG Retrieval
+        |
+        v
+Relevant Legal Context
+        |
+        v
+Gemini LLM
+        |
+        v
+Clause Analysis
+        |
+        v
+Risk Assessment
+        |
+        v
+Recommendation
 
-The prototype uses a local ChromaDB knowledge base. Knowledge-base materials should be maintained according to the team's agreed reference materials and access classification.
+Role of the LLM
 
----
+The Gemini LLM processes the extracted legal clauses together with the relevant legal knowledge retrieved from ChromaDB.
 
-## 6. Gemini AI Configuration
+The LLM is responsible for:
 
-The backend uses **Google Gemini** through the `google-genai` Python SDK.
+Analyzing legal clauses
+Understanding clause meaning and context
+Identifying potential legal risks
+Classifying the level of risk
+Providing reasoning for the identified risk
+Generating recommendations
+Supporting the human review and approval workflow
+RAG + LLM Integration
 
-**Current model:**
+The LLM does not work in isolation.
 
-```text
+The RAG pipeline first retrieves relevant legal knowledge from the ChromaDB knowledge base. This retrieved information is then provided as contextual input to the Gemini LLM.
+
+User / Uploaded Document
+        |
+        v
+Clause Extraction
+        |
+        v
+RAG Query
+        |
+        v
+Gemini Embedding
+        |
+        v
+ChromaDB Semantic Search
+        |
+        v
+Relevant Legal Context
+        |
+        v
+Prompt Construction
+        |
+        v
+Gemini LLM
+        |
+        v
+AI Legal Analysis
+
+Gemini Model
+
+The project uses the Gemini model configured through the environment variable:
+
+GEMINI_MODEL
+
+The current project configuration uses:
+
 gemini-3.5-flash-lite
-```
 
-**Required environment variable:**
+The API key is loaded through the environment variable:
 
-```env
-GEMINI_API_KEY=your_gemini_api_key
-```
+GEMINI_API_KEY
 
-The API key must remain private and must never be committed to GitHub.
+The API key is not stored directly in the source code or committed to the GitHub repository.
 
----
+Prompt-Based Analysis
+
+The retrieved legal context and extracted clause are combined into the input provided to the Gemini LLM.
+
+The analysis flow can be represented as:
+
+Legal Clause
+     +
+Retrieved Legal Knowledge
+     +
+Analysis Instructions
+     |
+     v
+Gemini LLM
+     |
+     v
+Risk Analysis
+     +
+Reasoning
+     +
+Recommendation
+
+This allows the generated analysis to use both the uploaded document and the project's legal knowledge base.
+
+Risk Analysis
+
+The LLM evaluates the clause and generates a risk assessment based on the available legal context.
+
+The analysis can identify potential issues such as:
+
+Unfavorable contractual terms
+Ambiguous clauses
+Compliance-related concerns
+Financial or commercial risks
+Legal obligations
+Missing or potentially problematic conditions
+Recommendation Generation
+
+After identifying potential risks, the LLM generates recommendations that can help a reviewer understand what should be examined or improved in the clause.
+
+The recommendations are presented as part of the document analysis results and can be reviewed through the human approval workflow.
+
+LLM Contribution
+
+The LLM component integrates:
+
+Google Gemini
+Prompt-based legal clause analysis
+RAG-retrieved context
+Risk assessment
+Legal recommendations
+Human-in-the-loop review
+
+The combination of RAG + LangChain + ChromaDB + Gemini LLM forms the core Generative AI pipeline of the legal document intelligence system.
+
 
 ## 7. Human Approval Workflow
 
-AI-generated analysis is not automatically treated as final approved legal work.
+The LLM-generated analysis is not treated as a final legal decision.
 
-A reviewer can:
+The system includes a human review and approval workflow where the generated results can be reviewed before being finalized.Gemini LLM
+    |
+    v
+AI-Generated Analysis
+    |
+    v
+Human Review
+    |
+    +----> Approve
+    |
+    +----> Reject
+    |
+    +----> Edit
+    |
+    +----> Escalate
 
-- View pending clauses
-- Accept an analysis
-- Reject an analysis
-- Edit the reviewed text
-- Escalate a clause for further review
-
-This provides a human-in-the-loop workflow around the AI-generated analysis.
-
----
 
 ## 8. Document Result Persistence
 
