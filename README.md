@@ -103,10 +103,6 @@ https://skyai-squads-aco3.onrender.com/
 **GitHub Repository:**
 https://github.com/Hariom-codes/SkyAI-Squads
 
-### Project Presentation
-
-**Project PPT:**
-
 
 ---
 
