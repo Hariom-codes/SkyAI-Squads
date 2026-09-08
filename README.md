@@ -67,7 +67,7 @@ Relevant Legal Knowledge
 Gemini LLM
 
 
-# Tata Legal AI — Backend
+### Tata Legal AI — Backend
 
 Backend service for the **Tata Legal AI Legal Document Intelligence System**.
 
