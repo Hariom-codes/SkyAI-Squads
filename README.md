@@ -31,6 +31,12 @@ Instead of manually reviewing every page and clause, the system helps users:
 
 The system is designed as an AI-assisted solution where human review remains an important part of the overall workflow.
 
+### 🔗 Live Links
+
+- **Frontend:** https://eclectic-biscotti-bca046.netlify.app/
+- **Backend:** https://skyai-squads-aco3.onrender.com/
+- **GitHub Repository:** https://github.com/Hariom-codes/SkyAI-Squads
+
 ## Legal Knowledge Base
 
 The project uses a dedicated legal knowledge base containing **30 PDF documents**.
