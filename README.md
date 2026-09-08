@@ -14,9 +14,22 @@ This folder contains the current integrated version of the Tata Legal AI project
 
 **SkyAI-Squads**
 
-## Group Representative
+## 👥 Team Members
 
-**Hariom Upadhyay**
+- **Hariom Upadhyay** — Group Representative
+- **Tanvi Rathore**
+- **Anas Jameel**
+- **Poojitha Gaddam**
+- **Mohd Amaan Zaidi**
+- **Prabhat Kumar Sasmal**
+- **Jyoti Yadav**
+- **Vishwajit Sonawane**
+- **Suryansh Chaurasiya**
+- **Shivaji Chaudhary**
+- **Vipul Kumar**
+- **Hitesh Shrivastava**
+
+> Team roles and individual responsibilities are documented in the project presentation.
 
 ## Project Overview
 
