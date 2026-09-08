@@ -1,3 +1,72 @@
+# Tata Legal AI — Legal Document Intelligence System
+
+## Project Overview
+
+Tata Legal AI — Legal Document Intelligence System is an AI-powered solution developed by **Team SkyAI-Squads** to simplify and accelerate the analysis of legal documents.
+
+The system is designed to process legal PDF documents and automatically extract useful information such as clauses, summaries, potential risks, supporting legal knowledge, and recommendations.
+
+The project combines PDF processing, OCR, text parsing, clause extraction, Retrieval-Augmented Generation (RAG), LangChain, Gemini Embeddings, ChromaDB, Google Gemini LLM, SQLite database, FastAPI, React, Docker, and cloud deployment into a single end-to-end legal document intelligence platform.
+
+The complete workflow starts from document upload and continues through document processing, clause extraction, knowledge retrieval, AI analysis, risk assessment, human review, and result storage.
+
+## Objective
+
+The primary objective of the project is to reduce the manual effort involved in reviewing lengthy legal documents.
+
+Instead of manually reviewing every page and clause, the system helps users:
+
+- Upload legal documents
+- Extract text from PDF documents
+- Process scanned documents using OCR
+- Parse and structure document content
+- Identify important legal clauses
+- Retrieve relevant legal knowledge
+- Analyze clauses using Generative AI
+- Identify potential risks
+- Generate explanations and recommendations
+- Review AI-generated results through human approval
+- Store processed document results
+- Retrieve previously processed documents using a unique document ID
+
+The system is designed as an AI-assisted solution where human review remains an important part of the overall workflow.
+
+## Legal Knowledge Base
+
+The project uses a dedicated legal knowledge base containing **20 PDF documents**.
+
+These documents provide reference knowledge that is used by the RAG system during legal clause analysis.
+
+### Knowledge Base Workflow
+
+```text
+20 Legal PDF Documents
+        |
+        v
+Document Loading
+        |
+        v
+Text Extraction
+        |
+        v
+Text Chunking
+        |
+        v
+Gemini Embeddings
+        |
+        v
+ChromaDB
+        |
+        v
+Semantic Search
+        |
+        v
+Relevant Legal Knowledge
+        |
+        v
+Gemini LLM
+
+
 # Tata Legal AI — Backend
 
 Backend service for the **Tata Legal AI Legal Document Intelligence System**.
