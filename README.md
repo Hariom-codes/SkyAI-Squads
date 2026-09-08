@@ -14,7 +14,7 @@ This folder contains the current integrated version of the Tata Legal AI project
 
 **SkyAI-Squads**
 
-## 👥 Team Members
+##  Team Members
 
 - **Hariom Upadhyay** — Group Representative
 - **Tanvi Rathore**
